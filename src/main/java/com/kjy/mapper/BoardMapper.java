@@ -23,4 +23,7 @@ public interface BoardMapper {
 	/* 데이터를 삭제 하는 작업 */
 	public int delete(Long bno);
 	
+	/* 데이터를 수정 하는 작업 */
+	public int update(BoardVO vo);
+	
 }

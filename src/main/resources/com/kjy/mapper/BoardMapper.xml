@@ -29,4 +29,10 @@
   <delete id="delete">
   	delete from sp_board where bno = #{bno}
   </delete>
+  
+  <update id="update">
+  	update sp_board set
+  	title = #{title}, content = #{content}, writer = #{writer}, updateDate = sysdate
+  	where bno = #{bno}
+  </update>
  </mapper>
