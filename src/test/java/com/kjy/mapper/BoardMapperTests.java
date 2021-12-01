@@ -58,4 +58,9 @@ public class BoardMapperTests {
 		BoardVO vo = boardMapper.read(9L);
 		log.info("read result : " + vo);
 	}
+	
+	@Test
+	public void testDelete() {
+		log.info("delete count: " + boardMapper.delete(1L));
+	}
 }

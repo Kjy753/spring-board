@@ -25,4 +25,8 @@
   <select id="read" resultType="com.kjy.domain.BoardVO">
   	select * from sp_board where bno = #{bno}
   </select>
+  
+  <delete id="delete">
+  	delete from sp_board where bno = #{bno}
+  </delete>
  </mapper>

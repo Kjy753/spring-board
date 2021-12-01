@@ -20,4 +20,7 @@ public interface BoardMapper {
 	/* 데이터를 조회하는 작업 */
 	public BoardVO read(Long bno);
 	
+	/* 데이터를 삭제 하는 작업 */
+	public int delete(Long bno);
+	
 }
