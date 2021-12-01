@@ -25,4 +25,8 @@
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 			<property name="dataSource" ref="dataSource"></property>
 		</bean>
+		
+		
+		<!-- 컴포넌트 스캔 추가 -->
+		<mybatis-spring:scan base-package="com.kjy.mapper"/>
 </beans>
