@@ -17,4 +17,7 @@ public interface BoardMapper {
 	/* pk 번호를 알아야 할경우에 사용하는 인서트 작업 */
 	public void insertSelectKey(BoardVO vo);
 	
+	/* 데이터를 조회하는 작업 */
+	public BoardVO read(Long bno);
+	
 }
