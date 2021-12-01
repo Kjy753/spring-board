@@ -40,4 +40,17 @@ public class BoardServiceTests {
 		
 		log.info("생성된 게시물의 번호는 : " + board.getBno());
 	}
+	
+	@Test
+	public void testGetList() {
+		/* 전체 목록 조회 */
+		service.getList().forEach(board -> log.info(board));
+		
+	}
+	
+	@Test
+	public void testGet() {
+		/* 3번 게시물 조회 */
+		log.info(service.get(3L));
+	}
 }
