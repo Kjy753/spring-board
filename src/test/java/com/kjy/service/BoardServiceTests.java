@@ -53,4 +53,22 @@ public class BoardServiceTests {
 		/* 3번 게시물 조회 */
 		log.info(service.get(3L));
 	}
+	
+	@Test
+	public void testUpdate() {
+		BoardVO board = service.get(3L);
+		
+		if(board == null) {
+			return;
+		}
+		
+		board.setTitle("update 제목");
+		log.info("Modify Result: " + service.modify(board));
+	}
+	
+	@Test
+	public void testDelete() {
+		
+		log.info("Remove Result: " + service.remove(3L));
+	}
 }
