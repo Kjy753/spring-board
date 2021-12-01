@@ -34,5 +34,21 @@ public class BoardMapperTests {
 		vo.setWriter("tester");
 		
 		boardMapper.insert(vo);
+		
+		log.info("--------------------");
+		log.info("after insert " + vo.getBno());
+	}
+	
+	@Test
+	public void testInsertSelectKey() {
+		BoardVO vo = new BoardVO();
+		vo.setTitle("insert 테스트");
+		vo.setContent("insert 테스트");
+		vo.setWriter("tester");
+		
+		boardMapper.insertSelectKey(vo);
+		
+		log.info("--------------------");
+		log.info("after insert selectkey " + vo.getBno());
 	}
 }

@@ -13,4 +13,12 @@
   	insert into sp_board (bno, title, content, writer) 
   	values(seq_board.nextval, #{title},#{content},#{writer})
   </insert>
+  
+    <insert id="insertSelectKey">
+    	<selectKey order="BEFORE" keyProperty="bno" resultType="long">
+    	select seq_board.nextval from dual
+    	</selectKey>
+  	insert into sp_board (bno, title, content, writer) 
+  	values(#{bno}, #{title},#{content},#{writer})
+  </insert>
  </mapper>
