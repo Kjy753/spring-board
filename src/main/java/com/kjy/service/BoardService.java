@@ -6,11 +6,11 @@ import com.kjy.domain.BoardVO;
 
 public interface BoardService {
 
-	public void register(BoardVO vo);
+	public void register(BoardVO board);
 	
 	public BoardVO get(Long bno);
 	
-	public boolean modify(BoardVO vo);
+	public boolean modify(BoardVO board);
 	
 	public boolean remove(Long bno);
 	

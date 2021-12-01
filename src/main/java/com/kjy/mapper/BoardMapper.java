@@ -2,7 +2,6 @@ package com.kjy.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Select;
 
 import com.kjy.domain.BoardVO;
 
@@ -12,10 +11,10 @@ public interface BoardMapper {
 	public List<BoardVO> getList();
 	
 	/* 단순 기본 인서트 작업 */
-	public void insert(BoardVO vo);
+	public void insert(BoardVO board);
 	
 	/* pk 번호를 알아야 할경우에 사용하는 인서트 작업 */
-	public void insertSelectKey(BoardVO vo);
+	public void insertSelectKey(BoardVO board);
 	
 	/* 데이터를 조회하는 작업 */
 	public BoardVO read(Long bno);
@@ -24,6 +23,6 @@ public interface BoardMapper {
 	public int delete(Long bno);
 	
 	/* 데이터를 수정 하는 작업 */
-	public int update(BoardVO vo);
+	public int update(BoardVO board);
 	
 }
