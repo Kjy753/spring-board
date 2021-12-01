@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.kjy.domain.BoardVO;
+
 import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -21,5 +23,16 @@ public class BoardMapperTests {
 		
 		log.info("-----------------");
 		boardMapper.getList();
+	}
+	
+	@Test
+	public void testInsert() {
+		
+		BoardVO vo = new BoardVO();
+		vo.setTitle("test 테스트");
+		vo.setContent("content 테스트");
+		vo.setWriter("tester");
+		
+		boardMapper.insert(vo);
 	}
 }

@@ -10,4 +10,6 @@ public interface BoardMapper {
 
 	//@Select("select * from sp_board where bno > 0")
 	public List<BoardVO> getList();
+	
+	public void insert(BoardVO vo);
 }
