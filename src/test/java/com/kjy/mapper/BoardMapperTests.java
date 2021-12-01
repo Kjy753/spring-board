@@ -61,6 +61,7 @@ public class BoardMapperTests {
 	
 	@Test
 	public void testDelete() {
+		
 		log.info("delete count: " + boardMapper.delete(1L));
 	}
 }
