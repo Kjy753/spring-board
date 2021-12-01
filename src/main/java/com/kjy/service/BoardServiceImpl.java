@@ -17,12 +17,12 @@ public class BoardServiceImpl implements BoardService{
 
 	private BoardMapper mapper;
 	
+
 	@Override
-	public void register(BoardVO vo) {
+	public void register(BoardVO board) {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public BoardVO get(Long bno) {
 		// TODO Auto-generated method stub
@@ -30,7 +30,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public boolean modify(BoardVO vo) {
+	public boolean modify(BoardVO board) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -46,6 +46,8 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 	
 }
