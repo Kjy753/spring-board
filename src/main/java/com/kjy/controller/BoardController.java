@@ -29,7 +29,12 @@ public class BoardController {
 		model.addAttribute("list", service.getList());
 
 	}
-
+	
+	@GetMapping("/register")
+	public void register() {
+		
+	}
+	
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		/* 등록 작업이 끝난 후 다시 목록 화면으로 가도록 하기 위해서 REdirectAttributes 를 파라미터로 사용 */
