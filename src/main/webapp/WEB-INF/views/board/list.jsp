@@ -52,7 +52,7 @@
                                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                             </div>
                             <div class="modal-body">
-                                처리가 완료되었습니다.
+                                
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -90,8 +90,9 @@
 				
 				return;
 			}
-			
-			if(parseInt(result) > 0) {
+			if(result === 'success') {
+				$(".modal-body").html( "정상적으로 처리되었습니다.");
+			}else if(parseInt(result) > 0) {
 				$(".modal-body").html("게시글 "+ parseInt(result)+ "번이 등록 되었습니다.");
 			}
 			$("#myModal").modal("show");
