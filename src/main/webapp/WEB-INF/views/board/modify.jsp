@@ -49,7 +49,7 @@
    <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
-<<script type="text/javascript">
+<script type="text/javascript">
 $(document).ready(function(){
 	
 	var formObj = $("form");
@@ -66,8 +66,9 @@ $(document).ready(function(){
 			formObj.attr("action", "/board/remove");
 		}else if(operation === 'list'){
 			// list 페이지로
-			self.location = "/board/list";
-			return;
+			formObj.attr("action", "/board/list").attr("method","get");
+			formObj.empty();
+			
 		}
 		formObj.submit();
 	});
