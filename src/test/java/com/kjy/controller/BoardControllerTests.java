@@ -70,4 +70,30 @@ public class BoardControllerTests {
 				.getModelAndView().getModelMap());
 		
 	}
+	
+	@Test
+	public void testModify() throws Exception {
+		
+		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/board/modify")
+				.param("bno", "4")
+				.param("title","수정 테스트")
+				.param("content","수정 내용")
+				.param("writer","user00")
+				).andReturn()
+				.getModelAndView().getViewName();
+		
+		log.info(resultPage);
+				
+	}
+	
+	@Test
+	public void testRemove() throws Exception {
+		// 삭제 테스트시 테스트 번호 게시물 존재 유무 확인 
+		
+		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
+				.param("bno", "5")
+				).andReturn().getModelAndView().getViewName();
+		
+		log.info(resultPage);
+	}
 }
