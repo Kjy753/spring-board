@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kjy.domain.BoardVO;
@@ -42,4 +43,11 @@ public class BoardController {
 		
 		/*POST 방식 이후에는 'redirect:/~~ 를 이용해서 별도의 페이지 이동 혹은 메시지 출력 방식*/
 		}
+	
+	@GetMapping("/get")
+	public void get(@RequestParam("bno") Long bno, Model model	) {
+		/* @RequestParam 을 하는 이유는 bno 값을 좀더 명시적으로 처리 하기 위해서 */
+		log.info("/get.........");
+		model.addAttribute("board", service.get(bno));
+	}
 }
