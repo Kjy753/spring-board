@@ -49,10 +49,10 @@ public class BoardController {
 		/* POST 방식 이후에는 'redirect:/~~ 를 이용해서 별도의 페이지 이동 혹은 메시지 출력 방식 */
 	}
 
-	@GetMapping("/get")
+	@GetMapping({"/get","/modify"})
 	public void get(@RequestParam("bno") Long bno, Model model) {
 		/* @RequestParam 을 하는 이유는 bno 값을 좀더 명시적으로 처리 하기 위해서 */
-		log.info("/get.........");
+		log.info("get 혹은 modify");
 		model.addAttribute("board", service.get(bno));
 	}
 
@@ -79,4 +79,6 @@ public class BoardController {
 		}
 		return "redirect:/board/list";
 	}
+	
+	
 }
