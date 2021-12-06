@@ -81,9 +81,13 @@
 		
 		checkModal(result);
 		
+		history.replaceState({},null,null);
+		/* 이전 url을 없애므로 뒤로가기 활성화x로 모달창이 다시 또 보이는 불상사 없어짐. */
+		
 		function checkModal(result) {
 			/* 모달창을 체크 하는 함수 */
-			if(result === ''){
+			if(result === '' || history.state){
+				
 				return;
 			}
 			
