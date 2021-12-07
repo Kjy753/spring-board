@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import com.kjy.domain.BoardVO;
+import com.kjy.domain.Criteria;
 
 public interface BoardMapper {
 
@@ -24,5 +25,8 @@ public interface BoardMapper {
 	
 	/* 데이터를 수정 하는 작업 */
 	public int update(BoardVO board);
+	
+	/* 페이징 처리 작업 */ 
+	public List<BoardVO> getListWithPaging(Criteria cri);
 	
 }
