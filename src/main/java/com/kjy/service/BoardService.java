@@ -20,4 +20,6 @@ public interface BoardService {
 	/* 검색의 기준인 cri 를 포함한 목록 조회로 변경 */
 	public List<BoardVO> getList(Criteria cri);
 	
+	public int getTotal(Criteria cri);
+	
 }

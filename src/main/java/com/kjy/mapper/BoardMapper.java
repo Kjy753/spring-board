@@ -29,4 +29,8 @@ public interface BoardMapper {
 	/* 페이징 처리 작업 */ 
 	public List<BoardVO> getListWithPaging(Criteria cri);
 	
+	/* 전체 갯수 조회 작업 */
+	public int getTotalCount(Criteria cri);
+	
+	
 }

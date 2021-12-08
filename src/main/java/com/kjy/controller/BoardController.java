@@ -28,10 +28,12 @@ public class BoardController {
 	@GetMapping("/list")
 	public void list(Criteria cri ,Model model) {
 		log.info("list...........");
-
+			
 		model.addAttribute("list", service.getList(cri));
 		
-		model.addAttribute("pageMaker", new PageDTO(cri, 122));
+		int total = service.getTotal(cri);
+		log.info("전체 데이터 갯수: " + total);
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		/* 페이지 DTO를 사용 할수 있게 Model 에 담음. */
 
 	}
