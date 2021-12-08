@@ -40,6 +40,9 @@
 	            <button type="submit" data-oper='modify' class="btn btn-default" >Modify</button>
                 <button type="submit" data-oper='remove' class="btn btn-danger" >Remove</button>
                 <button type="submit" data-oper='list' class="btn btn-info" >List</button>
+                
+                <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
+                <input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
            </form>
            </div>
            <!-- /.panel-body -->
@@ -67,7 +70,13 @@ $(document).ready(function(){
 		}else if(operation === 'list'){
 			// list 페이지로
 			formObj.attr("action", "/board/list").attr("method","get");
+			
+			var pageNumTag = $("input[name='pageNum']").clone();
+			var amountTag = $("input[name='amount']").clone();
+			
 			formObj.empty();
+			formObj.append(pageNumTag);
+			formObj.append(amountTag);
 			
 		}
 		formObj.submit();
