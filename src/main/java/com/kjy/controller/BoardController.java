@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kjy.domain.BoardVO;
 import com.kjy.domain.Criteria;
+import com.kjy.domain.PageDTO;
 import com.kjy.service.BoardService;
 
 import lombok.AllArgsConstructor;
@@ -28,6 +29,9 @@ public class BoardController {
 		log.info("list...........");
 
 		model.addAttribute("list", service.getList(cri));
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, 122));
+		/* 페이지 DTO를 사용 할수 있게 Model 에 담음. */
 
 	}
 	
