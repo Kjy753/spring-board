@@ -16,4 +16,13 @@
   
   select * from sp_reply where rno = #{rno}
   </select>
+  
+  <delete id="delete">
+  	delete from sp_reply where rno = #{rno}
+  </delete>
+  
+  <update id="update">
+   update sp_reply set reply = #{reply}, updatedate = sysdate where rno = #{rno}
+  </update>
+  
  </mapper>

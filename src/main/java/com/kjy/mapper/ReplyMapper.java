@@ -9,4 +9,12 @@ public interface ReplyMapper {
 	
 	public ReplyVO read(Long bno);
 	/* 댓글 조회 작업 */
+	
+	public int delete (Long rno);
+	/* 댓글 삭제 작업 */
+	
+	public int update(ReplyVO vo);
+	/* 댓글 수정 작업 */
+	
+	
 }
