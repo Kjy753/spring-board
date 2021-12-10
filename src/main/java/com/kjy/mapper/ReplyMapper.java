@@ -1,5 +1,9 @@
 package com.kjy.mapper;
 
-public interface ReplyMapper {
+import com.kjy.domain.ReplyVO;
 
+public interface ReplyMapper {
+	
+	public int insert(ReplyVO vo);
+	/* 등록 작업 */
 }
