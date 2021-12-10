@@ -1,5 +1,6 @@
 package com.kjy.mapper;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.Test;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.kjy.domain.Criteria;
 import com.kjy.domain.ReplyVO;
 
 import lombok.Setter;
@@ -71,5 +73,15 @@ public class ReplyMapperTests {
 		int count = mapper.update(vo);
 		
 		log.info("update count:"+count);
+	}
+	
+	@Test
+	public void testList() {
+		
+		Criteria cri = new Criteria();
+		
+		List<ReplyVO> replies = mapper.getListWithPaging(cri,bnoArr[0]);
+		
+		replies.forEach(reply -> log.info(reply));
 	}
 }
