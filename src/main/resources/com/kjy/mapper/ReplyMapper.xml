@@ -12,4 +12,8 @@
   
   </insert>
  
+  <select id="read" resultType="com.kjy.domain.ReplyVO">
+  
+  select * from sp_reply where rno = #{rno}
+  </select>
  </mapper>
