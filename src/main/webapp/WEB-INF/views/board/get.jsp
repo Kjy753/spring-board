@@ -63,6 +63,7 @@ console.log("JS TEST");
 
 var bnoValue = '<c:out value="${board.bno}"/>';
 
+/*
 replyService.add(
 		{reply:"JS TEST", replyer:"tester", bno:bnoValue},
 		function(result){
@@ -77,7 +78,7 @@ replyService.getList(
 		}
 });
 
-/* replyService.remove(21, function(count){
+replyService.remove(21, function(count){
 		console.log(count);
 		
 		if(count === "success"){
@@ -86,7 +87,7 @@ replyService.getList(
 	}, function(err){
 		alert("ERROR...");
 });
- */
+
  
 replyService.update({
 	rno : 23,
@@ -94,6 +95,11 @@ replyService.update({
 	reply : "댓글 수정 modify",
 }, function(result){
 	alert("수정 완료");
+});
+*/
+
+replyService.get(23, function(data){
+	console.log(data);
 });
 
 </script>
