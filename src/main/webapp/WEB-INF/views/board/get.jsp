@@ -77,7 +77,7 @@ replyService.getList(
 		}
 });
 
-replyService.remove(21, function(count){
+/* replyService.remove(21, function(count){
 		console.log(count);
 		
 		if(count === "success"){
@@ -86,7 +86,15 @@ replyService.remove(21, function(count){
 	}, function(err){
 		alert("ERROR...");
 });
-
+ */
+ 
+replyService.update({
+	rno : 23,
+	bno : bnoValue,
+	reply : "댓글 수정 modify",
+}, function(result){
+	alert("수정 완료");
+});
 
 </script>
 
