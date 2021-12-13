@@ -77,6 +77,16 @@ replyService.getList(
 		}
 });
 
+replyService.remove(21, function(count){
+		console.log(count);
+		
+		if(count === "success"){
+			alert("삭제 되었습니다");
+		}
+	}, function(err){
+		alert("ERROR...");
+});
+
 
 </script>
 
