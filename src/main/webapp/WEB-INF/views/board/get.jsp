@@ -149,12 +149,12 @@ var replyUL = $(".chat");
 			replyUL.html(str);
 			
 		}); //end function
-	
+
 	}// end showlist
 	
 	var modal = $(".modal");
-	var modalInputReply = modal.find("input[neme='reply']");
-	var modalInputReplyer = modal.find("input[neme='replyer']");
+	var modalInputReply = modal.find("input[name='reply']");
+	var modalInputReplyer = modal.find("input[name='replyer']");
 	var modalInputReplyDate = modal.find("input[name='replyDate']");
 	
 	var modalModBtn = $("#modalModBtn");
@@ -171,6 +171,28 @@ var replyUL = $(".chat");
 		
 		$(".modal").modal("show");
 	});
+	
+	modalRegisterBtn.on("click", function(e){
+
+		var reply = {
+				reply: modalInputReply.val(),
+				replyer: modalInputReplyer.val(),
+				bno:bnoValue
+		};
+		
+		replyService.add(reply, function(result){
+			alert(result);
+			
+			modal.find("input").val("");
+			$(".modal").modal("hide");
+			
+			showList(1);
+			// 댓글 추가후 댓글 목록 갱신을 위해 추가
+			
+		});
+	});
+	
+	
 </script>
 
 <script type="text/javascript">
