@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kjy.domain.Criteria;
 import com.kjy.domain.ReplyPageDTO;
 import com.kjy.domain.ReplyVO;
+import com.kjy.mapper.BoardMapper;
 import com.kjy.mapper.ReplyMapper;
 
 import lombok.Setter;
@@ -19,10 +21,19 @@ public class ReplyServiceImpl implements ReplyService{
 	
 	@Setter(onMethod_ = @Autowired)
 	private ReplyMapper mapper;
+	
+	@Setter(onMethod_ = @Autowired)
+	private BoardMapper boardmapper;
+	
+	
 
+	@Transactional
 	@Override
 	public int register(ReplyVO vo) {
 		log.info("등록"+vo);
+		
+		boardmapper.updateReplyCnt(vo.getBno(), 1);
+		// 댓글 등록시 board에서도 댓글 갯수가 업데이트
 		
 		return mapper.insert(vo);
 	}
@@ -42,10 +53,16 @@ public class ReplyServiceImpl implements ReplyService{
 		return mapper.update(vo);
 	}
 
+	@Transactional
 	@Override
 	public int remove(Long rno) {
 		
 		log.info("댓글 삭제" + rno);
+		ReplyVO vo = mapper.read(rno);
+		
+		boardmapper.updateReplyCnt(vo.getBno(), -1);
+		// 댓글 삭제시 board에서도 댓글 갯수가 업데이트
+		
 		return mapper.delete(rno);
 	}
 
