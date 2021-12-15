@@ -78,6 +78,8 @@
 					</li>
 				</ul>
 			</div>
+			<div class="panel-footer">
+			</div>
 		</div>
 	</div>
 </div>
@@ -129,13 +131,22 @@ var replyUL = $(".chat");
 	showList(1);
 	
 	function showList(page){
-		replyService.getList({bno:bnoValue, page: page|| 1}, function(list){
+		console.log("show List " + page);
+		
+		replyService.getList({bno:bnoValue, page: page|| 1}, function(replyCnt,list){
+			
+			console.log("댓글 수:" + replyCnt);
+			console.log("목록 : " +list);
+			
+			if(page == -1){ // 페이지 번호가 -1이 전달되면 마지막 페이지를 찾아서 다시 호출
+				pageNum = Math.ceil(replyCnt/10.0);
+				showList(pageNum);
+				return;
+			}
 			
 			var str ="";
 			
 			if(list == null || list.length == 0){
-				replyUL.html("");
-				
 				return;
 			}
 			
@@ -148,6 +159,7 @@ var replyUL = $(".chat");
 			
 			replyUL.html(str);
 			
+			showReplyPage(replyCnt);
 		}); //end function
 
 	}// end showlist
@@ -186,9 +198,10 @@ var replyUL = $(".chat");
 			modal.find("input").val("");
 			$(".modal").modal("hide");
 			
-			showList(1);
+			//showList(1);
 			// 댓글 추가후 댓글 목록 갱신을 위해 추가
-			
+			showList(-1);
+			//사용자가 새로운 댓글 추가시 호출하여 마지막 페이지 호출을 통해 이동
 		});
 	});
 	// 댓글 추가 화면
@@ -237,6 +250,62 @@ var replyUL = $(".chat");
 	});
 	// 댓글 삭제 화면
 	
+	// 댓글 페이징 처리 관련 
+	var pageNum = 1;
+	var replyPageFooter = $(".panel-footer");
+	
+	function showReplyPage(replyCnt){
+		
+		var endNum = Math.ceil(pageNum / 10.0) * 10;
+		var startNum = endNum - 9;
+		
+		var prev = startNum != 1;
+		var next = false;
+		
+		if(endNum * 10 >= replyCnt){
+			endNum = Math.ceil(replyCnt/10.0);
+		}
+		
+		if(endNum * 10 < replyCnt){
+			next = true;
+		}
+		
+		var str = "<ul class='pagination pull-right'>";
+		
+		if(prev){
+			str+= "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+		}
+		
+		for(var i = startNum; i <= endNum; i++){
+			
+			var active = pageNum == i?"active":"";
+			
+			str+= "<li class='page-item "+active+" '><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+		}
+		
+		if(next){
+			str+= "<li class='page-item'><a class='page-link' href='"+(endNum+1)+"'>Next</a></li>";
+		}
+		
+		str += "</ul></div>";
+		
+		console.log(str);
+		replyPageFooter.html(str);
+	}; 
+	// 댓글 목록을 출력
+	
+	replyPageFooter.on("click", "li a", function(e){
+		e.preventDefault();
+		console.log("페이지 클릭");
+		
+		var targetPageNum = $(this).attr("href");
+		
+		console.log("클릭된 페이지 번호 : "+ targetPageNum);
+		
+		pageNum = targetPageNum;
+		
+		showList(pageNum);
+	});
 </script>
 
 <script type="text/javascript">
