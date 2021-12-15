@@ -2,6 +2,7 @@ package com.kjy.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 
 import com.kjy.domain.BoardVO;
 import com.kjy.domain.Criteria;
@@ -32,5 +33,7 @@ public interface BoardMapper {
 	/* 전체 갯수 조회 작업 */
 	public int getTotalCount(Criteria cri);
 	
+	/* 게시물의 댓글 갯수 업데이트 조회 */
+	public void updateReplyCnt(@Param("bno") Long bno, @Param("amount") int amount);
 	
 }
