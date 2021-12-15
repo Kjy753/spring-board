@@ -233,7 +233,7 @@ var replyUL = $(".chat");
 		replyService.update(reply, function(result){
 			alert(result);
 			$(".modal").modal("hide");
-			showList(1);
+			showList(pageNum);
 		});
 	});
 	// 댓글 수정 화면
@@ -245,7 +245,7 @@ var replyUL = $(".chat");
 		replyService.remove(rno, function(result){
 			alert(result);
 			$(".modal").modal("hide");
-			showList(1);
+			showList(pageNum);
 		});
 	});
 	// 댓글 삭제 화면
