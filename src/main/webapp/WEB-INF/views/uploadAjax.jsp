@@ -13,7 +13,11 @@
 	<input type='file' name='uploadFile' multiple>
 </div>
 <button id='uploadBtn'>Upload</button>
-
+<div class='uploadResult'>
+	<ul>
+	
+	</ul>
+</div>
 <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
@@ -39,6 +43,20 @@ $(document).ready(function(){
 		return true;
 	}
 	
+	var uploadResult = $(".uploadResult ul");
+	
+	function showUploadedFile(uploadResultArr){
+		
+		var str = "";
+		
+		$(uploadResultArr).each(function(i, obj){
+			str += "<li>" + obj.fileName + "</li>";
+		});
+		uploadResult.append(str);
+	}
+	
+	var cloneObj = $(".uploadDiv").clone();
+	
 	$("#uploadBtn").on("click", function(e){
 		
 		var formData = new FormData();  // 가상의 폼태그에 필요한 파라미터를 담아서 전송
@@ -61,8 +79,13 @@ $(document).ready(function(){
 			contentType: false,
 			data: formData,
 			type: 'POST',
+			dataType:'json',
 			success: function(result){
-				alert("Uploaded");
+				console.log(result);
+				
+				showUploadedFile(result);
+				
+				$(".uploadDiv").html(cloneObj.html());
 			}
 		});//end $.ajax
 	});//end #uploadBtn
