@@ -22,6 +22,23 @@
 <script>
 $(document).ready(function(){
 	
+	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+	var maxSize = 5242880; //5MB
+	
+	function checkExtension(fileName, fileSize){
+		
+		if(fileSize >= maxSize){
+			alert("파일 사이즈 초과");
+			return false;
+		}
+		
+		if(regex.test(fileName)){
+			alert("해당 종류으 파일은 업로드할 수 없습니다.");
+			return false;
+		}
+		return true;
+	}
+	
 	$("#uploadBtn").on("click", function(e){
 		
 		var formData = new FormData();  // 가상의 폼태그에 필요한 파라미터를 담아서 전송
@@ -33,6 +50,7 @@ $(document).ready(function(){
 		console.log(files);
 		
 		for(var i = 0; i<files.length; i++){
+			
 			
 			formData.append("uploadFile", files[i]);
 		}

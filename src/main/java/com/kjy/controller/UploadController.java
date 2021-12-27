@@ -1,6 +1,9 @@
 package com.kjy.controller;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,12 +49,31 @@ public class UploadController {
 		log.info("uploadAjax");
 	}
 	
+	
+	private String getFolder() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Date date = new Date();
+		
+		String str = sdf.format(date);
+		
+		return str.replace("-", File.separator);
+	}
+	
 	@PostMapping("/uploadAjaxAction")
 	public void uploadAjaxPost(MultipartFile[] uploadFile) {
 		
 		log.info("ajax POST 업로드");
 		
 		String uploadFolder = "D:\\upload";
+		
+		File uploadPath = new File(uploadFolder, getFolder());
+		log.info("업로드 경로" + uploadPath);
+		
+		if(uploadPath.exists() == false	) {
+			uploadPath.mkdirs();
+		}
+		
 
 		for(MultipartFile multipartFile : uploadFile) {
 			log.info("업로드 되는 파일 이름 : " + multipartFile.getOriginalFilename());
@@ -62,7 +84,10 @@ public class UploadController {
 			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);
 			log.info("only file name : " + uploadFileName);
 			
-			File saveFile = new File(uploadFolder, uploadFileName);
+			UUID uuid = UUID.randomUUID();
+			
+			uploadFileName = uuid.toString() + "_" + uploadFileName;
+			File saveFile = new File(uploadPath, uploadFileName);
 			
 			try {
 				multipartFile.transferTo(saveFile);
@@ -74,4 +99,6 @@ public class UploadController {
 		}//end for
 		
 	}
+	
+	
 }
