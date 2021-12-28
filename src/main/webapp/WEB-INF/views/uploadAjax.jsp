@@ -22,7 +22,26 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
      crossorigin="anonymous"></script>
-     
+<style>
+.uploadResult {
+	width:100%;
+	background-color: gray;
+}
+.uploadResult ul{
+	display:flex;
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
+}
+.uploadResult ul li{
+	list-style: none;
+	padding: 10px;
+
+}
+.uploadResult ul li img{
+	width: 20px;
+}
+</style>
 <script>
 $(document).ready(function(){
 	
@@ -50,7 +69,15 @@ $(document).ready(function(){
 		var str = "";
 		
 		$(uploadResultArr).each(function(i, obj){
-			str += "<li>" + obj.fileName + "</li>";
+			if(!obj.image){
+			str += "<li><img src='/resources/img/attach.png'>"+ obj.fileName + "</li>";	
+			}else{
+				//str += "<li>" + obj.fileName + "</li>";
+				var fileCallPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.uuid+"_"+obj.fileName);
+				
+				str += "<li><img src='/display?fileName="+fileCallPath+"'></li>";
+			}
+			
 		});
 		uploadResult.append(str);
 	}
