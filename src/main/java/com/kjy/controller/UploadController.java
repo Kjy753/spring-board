@@ -199,21 +199,25 @@ public class UploadController {
 		log.info("resource: " + resource);
 		
 		String resourceName = resource.getFilename();
+		
+		String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
+		// uuid 제거된 원래 이름
+		
 		HttpHeaders headers = new HttpHeaders();
 		try {
 			String downloadName = null;
 			
 			if(userAgent.contains("Trident")) {
 				log.info("IE 브라우저 인 경우");
-				downloadName = URLEncoder.encode(resourceName,"UTF-8").replaceAll("\\+"," ");
+				downloadName = URLEncoder.encode(resourceOriginalName,"UTF-8").replaceAll("\\+"," ");
 				
 			}else if(userAgent.contains("Edge")) {
 				log.info("Edge 브라우저 인 경우");
-				downloadName = URLEncoder.encode(resourceName,"UTF-8");
+				downloadName = URLEncoder.encode(resourceOriginalName,"UTF-8");
 				
 			}else {
 				log.info("Chrome 브라우저 인 경우 ");
-				downloadName = new String(resourceName.getBytes("UTF-8"), "ISO-8859-1");
+				downloadName = new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
 					
 			}
 			
