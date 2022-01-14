@@ -6,6 +6,7 @@ import java.io.IOError;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
@@ -228,5 +229,33 @@ public class UploadController {
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 	}
 	
+	@PostMapping("/deleteFile")
+	@ResponseBody
+	public ResponseEntity<String> deleteFile(String fileName, String type){
+	
+		log.info("삭제될 파일 : "+ fileName);
+		
+		File file;
+		
+		try {
+			file = new File("d:\\upload\\" + URLDecoder.decode(fileName,"UTF-8"));
+			//파일 위치
+			file.delete();
+			//image 일경우 섬네일 파일 삭제 
+			if(type.equals("image")) {
+				
+				String largeFileName = file.getAbsolutePath().replace("s_","");
+				
+				log.info("largeFileName: " + largeFileName);
+				
+				file = new File(largeFileName);
+				file.delete();
+			}
+		}catch(UnsupportedEncodingException e ) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+	}
 	
 }
