@@ -47,7 +47,10 @@ public class BoardController {
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		/* 등록 작업이 끝난 후 다시 목록 화면으로 가도록 하기 위해서 REdirectAttributes 를 파라미터로 사용 */
 		log.info("register: " + board);
-
+		
+		if(board.getAttachList() != null) {
+			board.getAttachList().forEach(attach -> log.info(attach));
+		}
 		service.register(board);
 
 		rttr.addFlashAttribute("result", board.getBno());

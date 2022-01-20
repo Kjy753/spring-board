@@ -186,7 +186,8 @@ var maxSize = 5242880;	//5MB
 		var targetFile = $(this).data("file");
 		var type=$(this).data("type");
 		
-		var targetLi = $(this).closet("li");
+		var targetLi = $(this).closest("li");
+		
 		
 		$.ajax({
 			url: '/deleteFile',
