@@ -18,4 +18,8 @@
  	<select id="findByBno" resultType="com.kjy.domain.BoardAttachVO">
  	select * from sp_attach where bno = #{bno}
  	</select> 
+ 	
+ 	<delete id="deleteAll">
+ 	delete sp_attach where bno = #{bno}
+ 	</delete>
  </mapper>

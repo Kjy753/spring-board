@@ -1,6 +1,9 @@
 package com.kjy.controller;
 
 import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -98,17 +101,22 @@ public class BoardController {
 		
 		log.info("remove : " + bno);
 		
+		List<BoardAttachVO> attachList = service.getAttachList(bno);
+		
 		if(service.remove(bno)) {
-			
+			// 첨부파일 삭제 
+			deleteFiles(attachList);
 			rttr.addFlashAttribute("result","success");
 		}
 		
-		rttr.addAttribute("pageNum",cri.getPageNum());
-		rttr.addAttribute("amount",cri.getAmount());
-		rttr.addAttribute("type",cri.getType());
-		rttr.addAttribute("keyword",cri.getKeyword());
-		
-		return "redirect:/board/list";
+		/*
+		 * rttr.addAttribute("pageNum",cri.getPageNum());
+		 * rttr.addAttribute("amount",cri.getAmount());
+		 * rttr.addAttribute("type",cri.getType());
+		 * rttr.addAttribute("keyword",cri.getKeyword());
+		 * cri.getListLink() 로 정보 연결
+		 */
+		return "redirect:/board/list" + cri.getListLink();
 	}
 	
 	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -117,6 +125,34 @@ public class BoardController {
 		// 게시물 번호를 이용해서 첨부파일 관련 데이터를 json 으로 반환 
 		log.info("get AttachList =" + bno);
 		return new ResponseEntity<>(service.getAttachList(bno),HttpStatus.OK);
+	}
+	
+	private void deleteFiles(List<BoardAttachVO> attachList) {
+		
+		if(attachList == null || attachList.size() == 0) {
+			return;
+		}
+		
+		log.info("첨부파일 삭제");
+		log.info(attachList);
+		
+		attachList.forEach(attach -> {
+			try {
+				Path file = Paths.get("D:\\upload\\"+attach.getUploadPath()+"\\"+attach.getUuid()+"_" + attach.getFileName());
+				
+				Files.deleteIfExists(file);
+				
+				if(Files.probeContentType(file).startsWith("imag")) {
+					
+					Path thumbNail = Paths.get("D:\\upload\\"+attach.getUploadPath()+"\\s" + attach.getUuid() +"_" + attach.getFileName());
+					
+					Files.delete(thumbNail);
+				}
+				
+			}catch(Exception e) {
+				log.error("첨부파일 삭제 에러: "+e.getMessage());
+			}//end catch
+		});//end foreachd
 	}
 	
 }

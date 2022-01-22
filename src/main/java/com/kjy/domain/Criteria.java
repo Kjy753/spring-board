@@ -1,5 +1,7 @@
 package com.kjy.domain;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,4 +34,13 @@ public class Criteria {
 		return type == null? new String[] {}: type.split("");
 	}
 	
+	public String getListLink() {
+		// get 방식으로 파라미터 전송시 문자열을 쉽세 처리하는 클래스 
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+				.queryParam("pageNum", this.pageNum)
+				.queryParam("amount", this.getAmount())
+				.queryParam("type", this.getType())
+				.queryParam("keyword", this.getKeyword());
+		return builder.toUriString();
+	}
 }
