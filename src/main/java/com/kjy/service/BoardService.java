@@ -2,6 +2,7 @@ package com.kjy.service;
 
 import java.util.List;
 
+import com.kjy.domain.BoardAttachVO;
 import com.kjy.domain.BoardVO;
 import com.kjy.domain.Criteria;
 
@@ -22,4 +23,5 @@ public interface BoardService {
 	
 	public int getTotal(Criteria cri);
 	
+	public List<BoardAttachVO> getAttachList(Long bno);
 }

@@ -1,5 +1,10 @@
 package com.kjy.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,8 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kjy.domain.BoardAttachVO;
 import com.kjy.domain.BoardVO;
 import com.kjy.domain.Criteria;
 import com.kjy.domain.PageDTO;
@@ -104,5 +111,12 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
+	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno){
+		// 게시물 번호를 이용해서 첨부파일 관련 데이터를 json 으로 반환 
+		log.info("get AttachList =" + bno);
+		return new ResponseEntity<>(service.getAttachList(bno),HttpStatus.OK);
+	}
 	
 }
