@@ -144,7 +144,7 @@ $(document).ready(function() {
 					str += "<li data-path= '"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"'><div>";
 					str += "<span> " + attach.fileName+"</span>";
 					str += "<button type='button data-file=\'"+fileCallPath+"\' data-type='image'"
-					str += "class='btn btn-warning btn-circle'><i class='fa fa=times'></i></button><br>";
+					str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
 					str += "<img src='/display?fileName="+fileCallPath+"'>";
 					str += "</div>";
 					str += "</li>";
@@ -165,6 +165,120 @@ $(document).ready(function() {
 		//end getJSON
 	})();
 	//end function
+	
+	$(".uploadResult").on("click", "button", function(e){
+		console.log("delete file");
+		
+		if(confirm("Remove this file? ")){
+			var targetLi = $(this).closest("li");
+			targetLi.remove();
+		}
+	});
+	//첨부파일 삭제 버튼 클릭시 실행되는 함수
+	
+
+	// 파일 업로드 
+	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$"); // 정규식을 통한 exe,sh,zip 검사
+	var maxSize = 5242880; // 5MB
+	
+	function checkExtension(fileName, fileSize){
+		
+		if(fileSize >= maxSize){
+			alert("파일 사이즈 초과");
+			return false;
+		}
+		
+		if(regex.test(fileName)){
+			alert("해당 종류의 파일은 업로드할 수 없습니다.");
+			return false;
+		}
+		return true;
+	}
+	
+	  var csrfHeaderName ="${_csrf.headerName}"; 
+	  var csrfTokenValue="${_csrf.token}";
+	
+	$("input[type='file']").change(function(e){
+
+		var formData = new FormData();
+		
+		var inputFile = $("input[name='uploadFile']");
+		
+		var files = inputFile[0].files;
+		
+			
+		// formdata 객체를 통해 파일을 전송 하는 방식 
+		for(var i = 0; i < files.length; i++){
+				
+			if(!checkExtension(files[i].name, files[i].size)){
+				return false;
+			}
+			formData.append("uploadFile", files[i]);
+			
+		}
+		
+		
+		$.ajax({ㅂ
+			url: '/uploadAjaxAction',
+			processData: false,
+			contentType: false,
+			  beforeSend: function(xhr) {
+		          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+		      },
+		      data:formData,
+		      type: 'POST',
+		      dataType:'json',
+				success: function(result){
+					console.log(result);
+					
+					showUploadResult(result); // 업로드 결과 처리 함수 
+					
+				}
+		   
+		}); //$.ajax
+	});
+	/* end.input[type='file'] */
+	
+	 function showUploadResult(uploadResultArr){
+		if(!uploadResultArr || uploadResultArr.length == 0){ return;}
+		
+		var uploadUL = $(".uploadResult ul");
+		
+		var str = "";
+		
+		$(uploadResultArr).each(function(i,obj){
+					if(obj.image){
+						
+						var fileCallPath = encodeURIComponent(obj.uploadPath+ "/s_"+obj.uuid+"_"+obj.fileName);
+					
+						str += "<li data-path='"+obj.uploadPath+"'";
+						str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
+						str += "><div>";
+						str += "<span>" + obj.fileName+"</span>";
+						str += "<button type='button'data-file=\'"+fileCallPath+"\' data-type='image'  class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+						str += "<img src='/display?fileName="+fileCallPath+"'>";
+						str += "</div>";
+						str + "</li>";
+						
+					}else{
+						
+						var fileCallPath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
+						var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
+						
+						str += "<li "
+						str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
+						str += "<span> "+ obj.filName+"</span>";
+						str += "<button type='button'  class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+						str += "<img src='/resources/img/attach.png'></a>";
+						str += "</div>";
+						str + "</li>";
+						
+					}
+					
+			}); 
+	
+		uploadUL.append(str);
+		}
 });
 </script>
 <script type="text/javascript">
@@ -175,6 +289,7 @@ $(document).ready(function(){
 	$('button').on("click", function(e){
 		e.preventDefault();
 		/* 기본동작을 막음. */
+	
 		
 		var operation = $(this).data("oper");
 		/* data-oper 의 값들을 알고 있음 */
@@ -197,6 +312,26 @@ $(document).ready(function(){
 			formObj.append(keywordTag);
 			formObj.append(typeTag);
 			
+		}
+		else if(operation === 'modify'){
+			
+			console.log("submit clicked");
+			
+			var str = "";
+			
+			$(".uploadResult ul li").each(function(i, obj){
+				
+				var jobj = $(obj);
+				
+				console.dir(jobj);
+				
+				str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
+				str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
+				str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
+				str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+jobj.data("type")+"'>";
+			});
+			formObj.append(str).submit();
+			// end $(".uploadResult ul li")
 		}
 		formObj.submit();
 	});
