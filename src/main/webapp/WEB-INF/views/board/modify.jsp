@@ -125,6 +125,67 @@
   </div>
  </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	var formObj = $("form");
+	
+	$('button').on("click", function(e){
+		e.preventDefault();
+		/* 기본동작을 막음. */
+	
+		
+		var operation = $(this).data("oper");
+		/* data-oper 의 값들을 알고 있음 */
+		//console.log(operation);
+		
+		if(operation === 'remove'){
+			formObj.attr("action", "/board/remove");
+		}else if(operation === 'list'){
+			// list 페이지로
+			formObj.attr("action", "/board/list").attr("method","get");
+			
+			var pageNumTag = $("input[name='pageNum']").clone();
+			var amountTag = $("input[name='amount']").clone();
+			var keywordTag = $("input[name='keyword']").clone();
+			var typeTag = $("input[name='type']").clone()
+			
+			formObj.empty();
+			formObj.append(pageNumTag);
+			formObj.append(amountTag);
+			formObj.append(keywordTag);
+			formObj.append(typeTag);
+			
+		}else if(operation === 'modify'){
+			
+			console.log("submit clicked");
+			
+			var str = "";
+			
+			$(".uploadResult ul li").each(function(i, obj){
+				
+				var jobj = $(obj);
+				
+				console.dir(jobj);
+				
+				str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
+				str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
+				str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
+				str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+jobj.data("type")+"'>";
+				
+			});
+			formObj.append(str).submit();
+			// end $(".uploadResult ul li")
+		
+		}
+		formObj.submit();
+		
+		
+	});
+});
+</script>
+
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -211,31 +272,27 @@ $(document).ready(function() {
 		for(var i = 0; i < files.length; i++){
 				
 			if(!checkExtension(files[i].name, files[i].size)){
+				console.log("실패?");
 				return false;
 			}
 			formData.append("uploadFile", files[i]);
-			
+			console.log("추가");
 		}
+		console.log("추가 끝");
 		
 		
-		$.ajax({ㅂ
+		$.ajax({
 			url: '/uploadAjaxAction',
 			processData: false,
 			contentType: false,
-			  beforeSend: function(xhr) {
-		          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-		      },
-		      data:formData,
-		      type: 'POST',
-		      dataType:'json',
+			data: formData,
+			type: 'POST',
+			dataType:'json',
 				success: function(result){
 					console.log(result);
-					
-					showUploadResult(result); // 업로드 결과 처리 함수 
-					
+					showUploadResult(result); //업로드 결과 처리 함수
 				}
-		   
-		}); //$.ajax
+		});//$.ajax
 	});
 	/* end.input[type='file'] */
 	
@@ -281,60 +338,5 @@ $(document).ready(function() {
 		}
 });
 </script>
-<script type="text/javascript">
-$(document).ready(function(){
-	
-	var formObj = $("form");
-	
-	$('button').on("click", function(e){
-		e.preventDefault();
-		/* 기본동작을 막음. */
-	
-		
-		var operation = $(this).data("oper");
-		/* data-oper 의 값들을 알고 있음 */
-		//console.log(operation);
-		
-		if(operation === 'remove'){
-			formObj.attr("action", "/board/remove");
-		}else if(operation === 'list'){
-			// list 페이지로
-			formObj.attr("action", "/board/list").attr("method","get");
-			
-			var pageNumTag = $("input[name='pageNum']").clone();
-			var amountTag = $("input[name='amount']").clone();
-			var keywordTag = $("input[name='keyword']").clone();
-			var typeTag = $("input[name='type']").clone()
-			
-			formObj.empty();
-			formObj.append(pageNumTag);
-			formObj.append(amountTag);
-			formObj.append(keywordTag);
-			formObj.append(typeTag);
-			
-		}
-		else if(operation === 'modify'){
-			
-			console.log("submit clicked");
-			
-			var str = "";
-			
-			$(".uploadResult ul li").each(function(i, obj){
-				
-				var jobj = $(obj);
-				
-				console.dir(jobj);
-				
-				str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
-				str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
-				str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
-				str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+jobj.data("type")+"'>";
-			});
-			formObj.append(str).submit();
-			// end $(".uploadResult ul li")
-		}
-		formObj.submit();
-	});
-});
-</script>
+
 <%@include file="../includes/footer.jsp" %>

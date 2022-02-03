@@ -5,10 +5,8 @@
  <mapper namespace="com.kjy.mapper.BoardAttachMapper">
  
  	<insert id="insert">
-		insert into sp_attach (uuid, uploadpath, filename,
-		filetype, bno)
-		values (#{uuid}, #{uploadPath}, #{fileName},
-		#{fileType}, #{bno} )
+		insert into sp_attach (uuid, uploadpath, filename, filetype, bno)
+		values (#{uuid}, #{uploadPath}, #{fileName},#{fileType}, #{bno} )
 	</insert>
  	
  	<delete id="delete">
