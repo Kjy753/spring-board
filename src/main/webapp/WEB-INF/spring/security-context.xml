@@ -5,7 +5,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 		
-<bean id="customAccessDenied" class="com.kjy.security.CustomAccessDeniedHandler"></bean>		
+<bean id="customAccessDenied" class="com.kjy.security.CustomAccessDeniedHandler"></bean>
+<bean id="customLoginSuccess" class="com.kjy.security.CustomLoginSuccessHandler"></bean>		
 		<security:http>
 			<!-- <security:intercept-url pattern = "접속하는 URI 의 패턴" access="권한 체크"/> -->
 		
@@ -15,11 +16,13 @@
 			
 			<security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')"/>
 				
-			<security:form-login/>
+			<!-- <security:form-login/> -->
+			<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" />
 			
 			
 			<!-- <security:access-denied-handler error-page="/accessError"/> -->
 			<security:access-denied-handler ref="customAccessDenied"/>
+			
 			
 		</security:http>
 	
