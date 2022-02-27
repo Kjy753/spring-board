@@ -36,7 +36,7 @@ public class MemberTests {
 		// 사용자 추가 테스트
 		String sql = "insert into sp_member(userid, userpw, username) values (?,?,?)";
 		
-		for(int i = 0; i< 100; i++) {
+		for(int i = 100; i< 101; i++) {
 			
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -45,7 +45,7 @@ public class MemberTests {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(sql);
 				
-				pstmt.setString(2, pwencoder.encode("pw" +i));
+				pstmt.setString(2, pwencoder.encode("qwe123"));
 				
 				if(i< 80) {
 					pstmt.setString(1, "user" + i);
